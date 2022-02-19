@@ -1,0 +1,27 @@
+version: "3.9"
+services:
+  spark:
+    build: my_pyspark
+    container_name: spark_cont
+    volumes:
+      - .:/job
+    environment:
+      SPARK_MODE: "master"
+      SPARK_RPC_AUTHENTICATION_ENABLED: "no"
+      SPARK_RPC_ENCRYPTION_ENABLED: "no"
+      SPARK_LOCAL_STORAGE_ENCRYPTION_ENABLED: "no"
+      SPARK_SSL_ENABLED: "no"
+      MYSQL_DATABASE: "titanic_stats"
+      MYSQL_USER: "titanic_stats_user"
+      MYSQL_PASSWORD: "titanic_stats_pass"
+      MYSQL_HOST: "mysql"
+  mysql:
+    image: mysql
+    container_name: mysql_cont
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_DATABASE: "titanic_stats"
+      MYSQL_USER: "titanic_stats_user"
+      MYSQL_PASSWORD: "titanic_stats_pass"
+      MYSQL_ROOT_PASSWORD: "haslo"
